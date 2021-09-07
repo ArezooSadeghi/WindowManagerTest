@@ -1,12 +1,22 @@
 package com.example.windowmanagertest;
 
+import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -24,60 +34,75 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        binding.btnTest.setOnTouchListener(new View.OnTouchListener() {
-            float firstEventX, firstEventY, firstRawX, firstRawY;
+        binding.ivTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasPermission()) {
+                    createFloatWindow();
+                } else {
+                    getPermission();
+                }
+            }
+        });
+
+ /*       binding.btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent starter = TestTouchEvent.start(MainActivity.this);
+                startActivity(starter);
+            }
+        });*/
+
+        /*binding.btnTest.setOnTouchListener(new View.OnTouchListener() {
+            float xCoordinate, yCoordinate;
 
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        firstEventX = event.getX();
-                        firstEventY = event.getY();
-                        firstRawX = event.getRawX();
-                        firstRawY = event.getRawY();
-                    /*    int[] buttonTestLocationScreen = new int[2];
+                        xCoordinate = view.getX() - event.getRawX();
+                        yCoordinate = view.getY() - event.getRawY();
+                       *//* Log.d("Arezoo", "xCoordinate:" + xCoordinate);
+                        Log.d("Arezoo", "yCoordinate:" + yCoordinate);*//*
+         *//*           int[] buttonTestLocationScreen = new int[2];
                         binding.btnTest.getLocationOnScreen(buttonTestLocationScreen);
-                        Log.d("Arezoo", "screen0:" + buttonTestLocationScreen[0]);
-                        Log.d("Arezoo", "screen1:" + buttonTestLocationScreen[1]);
-                        int[] buttonTestLocationWindow = new int[2];
-                        binding.btnTest.getLocationInWindow(buttonTestLocationWindow);
-                        Log.d("Arezoo", "window0:" + buttonTestLocationWindow[0]);
+                        Log.d("Arezoo", "negativeOne: " + buttonTestLocationScreen[0] + view.getWidth());*//*
+         *//*Log.d("Arezoo", "screen0:" + buttonTestLocationScreen[0]);
+                        Log.d("Arezoo", "screen1:" + buttonTestLocationScreen[1]);*//*
+         *//*    int[] buttonTestLocationWindow = new int[2];
+                        binding.btnTest.getLocationInWindow(buttonTestLocationWindow);*//*
+         *//*  Log.d("Arezoo", "window0:" + buttonTestLocationWindow[0]);
                         Log.d("Arezoo", "window1:" + buttonTestLocationWindow[1]);
                         Log.d("Arezoo", "btnX:" + binding.btnTest.getX());
-                        Log.d("Arezoo", "btnY:" + binding.btnTest.getY());*/
-                        Log.d("Arezoo", "viewDownX:" + view.getX());
-                        Log.d("Arezoo", "viewDownY:" + view.getY());
-                        Log.d("Arezoo", "viewDownLeftX:" + view.getLeft());
-                        Log.d("Arezoo", "eventDownX:" + event.getX());
-                        Log.d("Arezoo", "eventDownY:" + event.getY());
-                        Log.d("Arezoo", "eventRawDownX:" + event.getRawX());
-                        Log.d("Arezoo", "eventRawDownY:" + event.getRawY());
+                        Log.d("Arezoo", "btnY:" + binding.btnTest.getY());
+                        Log.d("Arezoo", "viewX1:" + view.getX());
+                        Log.d("Arezoo", "viewY1:" + view.getY());
+                        Log.d("Arezoo", "viewLeftX1:" + view.getLeft());
+                        Log.d("Arezoo", "eventX1:" + event.getX());
+                        Log.d("Arezoo", "eventY1:" + event.getY());
+                        Log.d("Arezoo", "eventRawX1:" + event.getRawX());
+                        Log.d("Arezoo", "eventRawY1:" + event.getRawY());*//*
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        Log.d("Arezoo", "viewMoveX:" + view.getX());
-                        Log.d("Arezoo", "viewMoveY:" + view.getY());
-                        Log.d("Arezoo", "viewDownLeftX:" + view.getLeft());
-                        Log.d("Arezoo", "eventMoveX:" + event.getX());
-                        Log.d("Arezoo", "eventMoveY:" + event.getY());
-                        Log.d("Arezoo", "eventRawMoveX:" + event.getRawX());
-                        Log.d("Arezoo", "eventRawMoveY:" + event.getRawY());
-                        float dx = event.getRawX() - firstRawX;
-                        float dy = event.getRawY() - firstRawY;
-                        view.animate().x(firstEventX + dx).y(firstEventY + dy).setDuration(0).start();
+                        view.animate().x(event.getRawX() + xCoordinate).y(event.getRawY() + yCoordinate).setDuration(0).start();
+                      *//*  int[] buttonTestLocationScreen1 = new int[2];
+                        binding.btnTest.getLocationOnScreen(buttonTestLocationScreen1);
+                        Log.d("Arezoo", "negativeTwo: " + buttonTestLocationScreen1[0] + view.getWidth());*//*
+         *//*Log.d("Arezoo", "viewX2:" + view.getX());
+                        Log.d("Arezoo", "viewY2:" + view.getY());
+                        Log.d("Arezoo", "viewLeftX2:" + view.getLeft());
+                        Log.d("Arezoo", "eventX2:" + event.getX());
+                        Log.d("Arezoo", "eventY2:" + event.getY());
+                        Log.d("Arezoo", "eventRawX2:" + event.getRawX());
+                        Log.d("Arezoo", "eventRawY2:" + event.getRawY());*//*
                         break;
                 }
                 return true;
             }
-        });
-/*
-        if (hasPermission()) {
-            createFloatWindow();
-        } else {
-            getPermission();
-        }*/
+        });*/
     }
 
-   /* @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
@@ -108,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createFloatWindow() {
+        int[] btnScreenLocation = new int[2];
+        binding.ivTest.getLocationInWindow(btnScreenLocation);
+        Log.d("Arezoo", "btnScreenLocation[0]:" + btnScreenLocation[0]);
+        Log.d("Arezoo", "btnScreenLocation[1]:" + btnScreenLocation[1]);
+        binding.ivTest.setVisibility(View.GONE);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.test, null);
@@ -125,9 +155,43 @@ public class MainActivity extends AppCompatActivity {
         int _format = PixelFormat.TRANSLUCENT;
         WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(w, h, xpos, ypos, _type, _flags, _format);
         calculateSizeAndPosition(windowParams);
+        windowParams.x = btnScreenLocation[0];
+        windowParams.y = btnScreenLocation[1];
+        windowParams.x = (int) binding.ivTest.getX();
+        windowParams.y = (int) binding.ivTest.getY();
+        /*windowParams.alpha = 1;*/
+        windowParams.windowAnimations = android.R.style.Animation_Toast;
         windowManager.addView(view, windowParams);
+        int[] viewScreenLocation = new int[2];
+        view.getLocationInWindow(viewScreenLocation);
+        Log.d("Arezoo", "viewScreenLocation[0]:" + viewScreenLocation[0]);
+        Log.d("Arezoo", "viewScreenLocation[1]:" + viewScreenLocation[1]);
+        Log.d("Arezoo", "paramX:" + windowParams.x);
+        Log.d("Arezoo", "paramY:" + windowParams.y);
+        Log.d("Arezoo", "viewX:" + view.getX());
+        Log.d("Arezoo", "viewY:" + view.getY());
+        view.setOnTouchListener(new View.OnTouchListener() {
+            private float xCoordinate, yCoordinate;
 
-        *//*ImageButton imageButtonClose = view.findViewById(R.id.ib_window_close);
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        xCoordinate = windowParams.x - event.getRawX();
+                        yCoordinate = windowParams.y - event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        /*view.animate().x(event.getRawX() + xCoordinate).y(event.getRawY() + yCoordinate).setDuration(0).start();*/
+                        windowParams.x = (int) (event.getRawX() + xCoordinate);
+                        windowParams.y = (int) (event.getRawY() + yCoordinate);
+                        windowManager.updateViewLayout(view, windowParams);
+                        break;
+                }
+                return true;
+            }
+        });
+
+       /* ImageButton imageButtonClose = view.findViewById(R.id.ib_window_close);
         imageButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,8 +239,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Arezoo", "Content");
             }
         });
-*//*
-        binding.edTest.addTextChangedListener(new TextWatcher() {
+*/
+        /*binding.edTest.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Log.d("Arezoo", "mainBefore");
@@ -204,28 +268,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Log.d("Arezoo", "DownView");
-                        break;
-                }
-                return true;
-            }
-        });
-
-        binding.btnTest.setOnClickListener(new View.OnClickListener() {
+*/
+       /* binding.btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent starter = DestinationActivity.start(MainActivity.this);
                 startActivity(starter);
             }
-        });
+        });*/
 
-        binding.btnTest.setOnTouchListener(new View.OnTouchListener() {
+/*        binding.btnTest.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -235,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
     }
 
     private DisplayMetrics getCurrentDisplayMetrics() {
@@ -245,11 +297,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculateSizeAndPosition(WindowManager.LayoutParams windowParams) {
-        DisplayMetrics displayMetrics = getCurrentDisplayMetrics();
+        /*  DisplayMetrics displayMetrics = getCurrentDisplayMetrics();*/
         windowParams.gravity = Gravity.TOP | Gravity.LEFT;
-        windowParams.width = (int) (300 * displayMetrics.density);
-        windowParams.height = (int) (80 * displayMetrics.density);
-        windowParams.x = (displayMetrics.widthPixels - windowParams.width) / 2;
-        windowParams.y = (displayMetrics.heightPixels - windowParams.height) / 2;
-    }*/
+       /* windowParams.width = (int) (300 * displayMetrics.density);
+        windowParams.height = (int) (80 * displayMetrics.density);*/
+        windowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        windowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        /*windowParams.x = (displayMetrics.widthPixels - windowParams.width) / 2;
+        windowParams.y = (displayMetrics.heightPixels - windowParams.height) / 2;*/
+    }
 }

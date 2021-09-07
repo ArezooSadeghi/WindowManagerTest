@@ -22,15 +22,12 @@
             android:textColor="@color/black"
             android:textColorHint="@color/black" />
 
-        <Button
-            android:id="@+id/btn_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="32dp"
-            android:backgroundTint="@color/teal_200"
-            android:text="تست"
-            android:textColor="@color/black" />
+        <ImageView
+            android:id="@+id/iv_test"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:src="@drawable/disable_assistance_touch_icon" />
 
     </FrameLayout>
 
